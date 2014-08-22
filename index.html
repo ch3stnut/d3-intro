@@ -4,10 +4,52 @@
 	<meta charset="utf-8">
 	<title>D3 Test</title>
 	<script src="d3/d3.js"></script>
+	<script src="lodash/lodash.js"></script>
+
+	<style>
+	div.bar {
+		display: inline-block;
+		width: 20px;
+		height: 75px; /* default */
+		background-color: teal;
+		margin-right: 3px;
+	}
+	</style>
+
 </head>
 <body>
+
 	<script>
-		// muh script
+	var w = 500,
+	    h = 100;
+	var barMargin = 1;
+
+	var data = [];
+	_.times(10, function() {
+		this.push([
+			_.random(5, w - 5),
+			_.random(5, h - 5)
+		]);
+	}, data);
+
+	var svg =
+	d3.select("body")
+		.append("svg")
+		.attr("width", w)
+		.attr("height", h);
+
+	svg.selectAll("circle")
+		.data(data)
+		.enter()
+		.append("circle")
+		.attr({
+			cx: function(d) { return d[0]; },
+			cy: function(d) { return d[1]; },
+			r: function(d) {
+				return Math.sqrt(h - d[1]);
+			}
+		})
 	</script>
+
 </body>
 </html>
