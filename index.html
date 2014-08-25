@@ -7,12 +7,15 @@
 	<script src="lodash/lodash.js"></script>
 
 	<style>
-	div.bar {
-		display: inline-block;
-		width: 20px;
-		height: 75px; /* default */
-		background-color: teal;
-		margin-right: 3px;
+	.axis path,
+	.axis line {
+		fill: none;
+		stroke: black;
+		shape-rendering: crispEdges;
+	}
+	.axis text {
+		font-family: sans-serif;
+		font-size: 11px;
 	}
 	</style>
 
@@ -38,7 +41,11 @@
 		.range([h - padding, padding]);
 	var rScale = d3.scale.linear()
 		.domain([0, d3.max(data, function(d) { return d[1]; })])
-		.range([2, 10]);
+		.range([1, 7]);
+
+	var xAxis = d3.svg.axis()
+		.scale(xScale)
+		.orient("bottom");
 
 	var svg =
 	d3.select("body")
@@ -55,6 +62,11 @@
 			cy: function(d) { return yScale(d[1]); },
 			r: function(d) { return rScale(d[1]); }
 		});
+
+	svg.append("g")
+		.attr("class", "axis")
+		.attr("transform", "translate(0," + (h - padding) + ")")
+		.call(xAxis);
 	</script>
 
 </body>
